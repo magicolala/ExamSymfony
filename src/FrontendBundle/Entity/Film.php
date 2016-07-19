@@ -3,6 +3,7 @@
 namespace FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Film
@@ -49,11 +50,15 @@ class Film
      */
     private $folder;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="film")
+     */
+    protected $comments;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -76,7 +81,7 @@ class Film
     /**
      * Get titre
      *
-     * @return string 
+     * @return string
      */
     public function getTitre()
     {
@@ -99,7 +104,7 @@ class Film
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -122,7 +127,7 @@ class Film
     /**
      * Get parution
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getParution()
     {
@@ -149,5 +154,49 @@ class Film
     public function getFolder()
     {
         return $this->folder;
+    }
+
+    public function __construct()
+   {
+       $this->comments = new ArrayCollection();
+   }
+
+    /**
+     * Add comment
+     *
+     * @param \FrontendBundle\Entity\Comment $comment
+     *
+     * @return Film
+     */
+    public function addComment(\FrontendBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \FrontendBundle\Entity\Comment $comment
+     */
+    public function removeComment(\FrontendBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    public function __toString()
+    {
+        return $this->getTitre();
     }
 }

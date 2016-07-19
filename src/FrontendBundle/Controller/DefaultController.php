@@ -16,8 +16,8 @@ class DefaultController extends Controller
 
         $form = $this->createForm('FrontendBundle\Form\FilmType', $film);
         $form->handleRequest($request);
-        
-        if ($form->isValid()) 
+
+        if ($form->isValid())
         {
             $photo = $film->getFolder();
             $photoName = md5(uniqid()).'.'.$photo->guessExtension();
@@ -52,7 +52,7 @@ class DefaultController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
         $user = $this->container->get('security.context')->getToken()->getUser();
-		
+
 		return $this->render('FrontendBundle:Default:article.html.twig');
     }
 
@@ -63,9 +63,13 @@ class DefaultController extends Controller
 
         $thisMovie = $em->getRepository('FrontendBundle:Film')->findOneById($id);
 
+		$comments = $em->getRepository('FrontendBundle:Comment')
+                   ->getCommentsForFilm($thisMovie->getId());
+
         return $this->render('FrontendBundle:Default:show.html.twig',
         	array(
-        		'movie' => $thisMovie,
+        		'film' => $thisMovie,
+				'comments'  => $comments
         ));
 
     }

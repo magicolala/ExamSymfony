@@ -13,3 +13,10 @@ article_show:
 admin_film_new:
     path:     /admin/film/new
     defaults: { _controller: FrontendBundle:Default:newFilm }
+
+comment_create:
+    pattern:  /comment/{film_id}
+    defaults: { _controller: FrontendBundle:Comment:create }
+    requirements:
+        _method:  POST
+        film_id: \d+

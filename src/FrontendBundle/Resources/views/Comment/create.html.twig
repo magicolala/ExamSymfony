@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Add Comment{% endblock%}
+
+{% block body %}
+    <h1>Add comment for blog post "{{ comment.film.title }}"</h1>
+    {% include 'FrontendBundle:Comment:form.html.twig' with { 'form': form } %}
+{% endblock %}
